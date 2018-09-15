@@ -1,0 +1,21 @@
+# creating batman interface
+- name: Create interfaces - batman file
+  template: src="batman.j2" dest="/etc/network/interfaces.d/10_batman.cfg"
+  notify:
+    - restart networking
+  when: domaenenliste is defined
+
+#append line in interfaces file for reading additional config files
+- name: let read interfaces from interfaces
+  lineinfile: dest="/etc/network/interfaces" line="source /etc/network/interfaces.d/*"
+  notify:
+    - restart networking
+  when: domaenenliste is defined
+
+- name: Routingtabelle 42 auch ffnet nennen
+  lineinfile: dest="/etc/iproute2/rt_tables" line="42   ffnet"
+  when: domaenenliste is defined
+
+- name: Drei Sekunden nach Kernelpanik automatisch neu starten
+  sysctl: name="kernel.panic" value=3 sysctl_set=yes state=present reload=yes
+  when: domaenenliste is defined

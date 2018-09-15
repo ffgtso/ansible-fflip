@@ -1,0 +1,58 @@
+vm_id: 5
+server_id: 5
+
+server_besitzer: "Freifunk Lippe"
+hoster: "Netcup"
+
+ffrl_nat_ip: 185.66.194.55/32
+
+
+ffrl_tun:
+- name: dus1
+  gre_target: 185.66.193.0
+  v4_local: 100.64.6.133/31
+  v4_remote: 100.64.6.132/31
+  v6_local: 2a03:2260:0:366::2/64
+  v6_remote: 2a03:2260:0:366::1/64
+- name: dus2
+  gre_target: 185.66.193.1
+  v4_local: 100.64.6.139/31
+  v4_remote: 100.64.6.138/31
+  v6_local: 2a03:2260:0:369::2/64
+  v6_remote: 2a03:2260:0:369::1/64
+- name: fra1
+  gre_target: 185.66.194.0
+  v4_local: 100.64.6.131/31
+  v4_remote: 100.64.6.130/31
+  v6_local: 2a03:2260:0:365::2/64
+  v6_remote: 2a03:2260:0:365::1/64
+- name: fra2
+  gre_target: 185.66.194.1
+  v4_local: 100.64.6.137/31
+  v4_remote: 100.64.6.136/31
+  v6_local: 2a03:2260:0:368::2/64
+  v6_remote: 2a03:2260:0:368::1/64
+- name: ber1
+  gre_target: 185.66.195.0
+  v4_local: 100.64.6.129/31
+  v4_remote: 100.64.6.128/31
+  v6_local: 2a03:2260:0:364::2/64
+  v6_remote: 2a03:2260:0:364::1/64
+- name: ber2
+  gre_target: 185.66.195.1
+  v4_local: 100.64.6.135/31
+  v4_remote: 100.64.6.134/31
+  v6_local: 2a03:2260:0:367::2/64
+  v6_remote: 2a03:2260:0:367::1/64
+
+domaenenliste:
+   "03":
+      dhcp_start: 10.15.40.26
+      dhcp_ende: 10.15.47.254
+      server_id: 5
+   "04":
+      dhcp_start: 10.15.56.26
+      dhcp_ende: 10.15.63.254
+      server_id: 5
+
+

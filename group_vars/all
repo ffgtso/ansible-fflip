@@ -1,0 +1,151 @@
+# Globale Variablen für alle Server
+build_tunnels_over_ipv6_if_available: false
+
+domaenen:
+  "01":
+    name: Lippe
+    community: Freifunk Lippe
+    ffv4_network: 10.15.0.0/20
+    ffv6_network: 2a03:2260:2004:101::/64
+    map_scale: 1.1
+    map_show_contact: true
+    map_max_age: 14
+    map_blinking_hours: 8
+    firmware: domaene01/
+  "02":
+    name: Detmold
+    community: Freifunk Lippe
+    ffv4_network: 10.15.16.0/20
+    ffv6_network: 2a03:2260:2004:102::/64
+    map_scale: 1.1
+    map_show_contact: true
+    map_max_age: 14
+    firmware: domaene02/
+  "03":
+    name: Lemgo
+    community: Freifunk Lippe
+    ffv4_network: 10.15.32.0/20
+    ffv6_network: 2a03:2260:2004:103::/64
+    map_scale: 1.1
+    map_show_contact: true
+    map_max_age: 14
+    firmware: domaene03/
+  "04":
+    name: Bad Salzuflen
+    community: Freifunk Lippe
+    ffv4_network: 10.15.48.0/20
+    ffv6_network: 2a03:2260:2004:104::/64
+    map_scale: 1.1
+    map_show_contact: true
+    map_max_age: 14
+    firmware: domaene04/
+
+# Nummer der Routing Tabelle, die auf den Servern verwendet wird
+routing_table: 42
+
+# Einstellungen für DHCP Server 
+dhcp_global:
+  # MTU, die an die Clients im Netzwerk propagiert wird
+  mtu: 1280 
+  # Default-Lease Time 
+  lease_default: 3600
+  # Maximale Lease Time
+  lease_max: 10800 
+  domain_search: fflip
+
+# Batman Einstellungen
+batman:
+  # Bandbreite, die Batman annoncieren soll
+  downstream: 1024Mbit
+  # Bandbreite, die Batman annoncieren soll
+  upstream: 1024Mbit
+
+# Parameter für das eigene Freifunk-Netzwerk
+ff_network:
+  # Eindeutige AS-Nummer des Netzwerk
+  as_number: 64884
+  # IPv4 Adressraum
+  v4_network: 10.15.0.0/18
+  # IPv6 adressraum
+  v6_network: 2a03:2260:2004:100::/56
+
+hostname_suffix: ".freifunk-lippe.de"
+
+administratorenteam:
+  - "collimas"
+  - "mpw"
+  - "tronde"
+  - "jw"
+  - "uhlstone"
+  - "corny"
+
+collectd:
+  collect_dhcp: false
+  collect_fastd: false
+  collect_l2tp: false
+  collect_ipv4ipv6: false
+  collect_sysctl: false
+  collect_bind: false
+  collect_ping: false
+  graphite_target:
+    host: 88.99.189.29
+    port: 2003
+
+bind:
+  ffms_zone_type: slave
+#  ffms_zone_masters:
+#    - 88.99.189.29
+
+logrotate:
+  cycle: daily
+  count: 3
+
+freifunk:
+  name: "Freifunk Lippe"
+  kurzname: "fflip"
+  search_domain: "fflip"
+  email: info@freifunk-lippe.de
+  domain: freifunk-lippe.de
+
+bind_zonemaster:
+  server: services.freifunk-lippe.de
+  email: info.freifunk-lippe.de
+
+graphite:
+  graphite_target:
+    host: 193.31.25.64
+    port: 2003
+  nginx:
+    host_name: "graphite-node-01.{{freifunk.domain}}"
+  cluster_servers:
+    - server: "graphite-node-01.freifunk-lippe.de"
+      port: 80
+  relay:
+    method: "consistent-hashing"
+  cache_instances:
+    - name: "a"
+    - name: "b"
+    - name: "c"
+    - name: "d"
+  storage_schemas:
+    - name: "node"
+      pattern: "^node\\..*"
+      retentions: "1m:2d,5m:7d,15m:90d,1d:4y"
+    - name: "nodes"
+      pattern: "^nodes\\..*"
+      retentions: "1m:2d,5m:7d,15m:90d,1d:4y"
+    - name: "carbon"
+      pattern: "^carbon\\..*"
+      retentions: "10s:1h,1m:2d,5m:7d,15m:90d,1d:4y"
+    - name: "default"
+      pattern: ".*"
+      retentions: "60s:30d"
+
+nameservers:
+- "1.1.1.1"
+- "1.0.0.1"
+- "2606:4700:4700::1111"
+- "2606:4700:4700::1001"
+
+server_besitzer: "Freifunk Lippe"
+
