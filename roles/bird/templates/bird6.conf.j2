@@ -6,7 +6,7 @@ table ffnet;
 
 filter freifunk {
 	if net ~ {{ff_network.v6_network}} then accept;
-{% if not ffrl_tun is defined %}
+{% if not ffrl_tun is defined and not ffgt_tun is defined %}
 	if net ~ [::/0] then accept;
 {% endif %}
 	reject;
@@ -69,7 +69,7 @@ protocol ospf {
 {% endif %}
 {% endfor %}
 		interface "bck-*";
-{% if ffrl_tun is defined %}
+{% if ffrl_tun is defined or ffgt_tun is defined %}
 		interface "lo" {
 			stub;
 		};
@@ -81,7 +81,7 @@ function is_default() {
 	return (net ~ [::/0]);
 };
 
-{% if ffrl_tun is defined %}
+{% if ffrl_tun is defined or ffgt_tun is defined %}
 filter export_to_upstream_filter {
 	if source = RTS_STATIC then accept;
 	reject;
@@ -125,7 +125,12 @@ protocol static {
 
 protocol direct {
 	interface "lo";
+{% if ffrl_tun is defined %}
 	interface "tun-ffrl*";
+{% endif %}
+{% if ffgt_tun is defined %}
+	interface "tun-ffgt*";
+{% endif %}
 	interface "gre-*";
 	interface "bck-*";
 	interface "bat*";
@@ -187,6 +192,17 @@ protocol bgp ffrl_{{tun.name}} from uplink {
 	description "Rheinland Backbone";
 	source address {{ tun.v6_remote | ipaddr('2') | ipaddr('address') }};
 	neighbor {{tun.v6_remote | ipaddr('address')}} as 201701;
+};
+
+{% endfor %}
+{% endif %}
+
+{% if ffgt_tun is defined %}
+{% for tun in ffgt_tun %}
+protocol bgp ffgt_{{tun.name}} from uplink {
+	description "Freifunk Kreis GT";
+	source address {{ tun.v6_remote | ipaddr('address') }};
+	neighbor {{tun.v6_local | ipaddr('address')}} as 206813;
 };
 
 {% endfor %}

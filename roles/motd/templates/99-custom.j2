@@ -17,6 +17,9 @@ echo " Besitzer    : {{ server_besitzer }}"
 
 cat << 'EOF'
 
+{% if ffgt_nat_ip is defined %}
+ FFGT-NAT-IP : {{ffgt_nat_ip}}
+{% endif %}
 {% if ffnw_nat_ip is defined %}
  FFNW-NAT-IP : {{ffnw_nat_ip}}
 {% endif %}
