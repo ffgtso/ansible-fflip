@@ -201,7 +201,7 @@ protocol bgp ffrl_{{tun.name}} from uplink {
 {% for tun in ffgt_tun %}
 protocol bgp ffgt_{{tun.name}} from uplink {
 	source address {{ tun.v4_remote | ipaddr('address')}};
-	neighbor {{tun.v4_local remote  | ipaddr('address')}} as 206813;
+	neighbor {{tun.v4_local | ipaddr('address')}} as 206813;
 {% if "bgp_local_pref" in tun %}
 	default bgp_local_pref {{tun.bgp_local_pref}};
 {% endif %}
