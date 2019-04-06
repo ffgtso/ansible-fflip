@@ -16,7 +16,7 @@ COMMIT
 {% if ffnw_tun is defined %}
 -A POSTROUTING -o tun-ffnw+ -j SNAT --to-source {{ffnw_nat_ip| ipaddr('address')}}
 {% endif %}
-{% if ffgt_tun is defined %}
+{% if ffgt_tun is defined and ffgt_nat_ip is defined %}
 -A POSTROUTING -o tun-ffgt+ -j SNAT --to-source {{ffgt_nat_ip| ipaddr('address')}}
 {% endif %}
 {% if ffnw_tun is not defined and ffrl_tun is not defined and ffgt_tun is not defined %}
